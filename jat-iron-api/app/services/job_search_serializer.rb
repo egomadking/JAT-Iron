@@ -1,0 +1,3 @@
+class JobSearchSerializer
+  
+end

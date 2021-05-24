@@ -1,0 +1,2 @@
+class NoteSerializer
+end

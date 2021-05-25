@@ -6,9 +6,13 @@ class CreateJobs < ActiveRecord::Migration[6.1]
       t.string :url
       t.string :company_logo
       t.text :description
-      t.date, :posted
+      t.string :recruiter_name
+      t.string :recruiter_phone
+      t.string :recruiter_email
+      t.text :poc_notes
+      t.date :posted
       t.date :closed
-      t.string :status
+      t.string :status, default: "new"
 
       t.timestamps
     end

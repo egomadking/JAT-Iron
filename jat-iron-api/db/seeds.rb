@@ -1,17 +1,17 @@
 def f_recruiter
-
+  Faker::Name.name
 end
 
 def f_email
-
+  Faker::Internet.email
 end
 
 def f_phone
-
+  Faker::PhoneNumber.phone_number
 end
 
 def f_description
-
+  Faker::Lorem.paragraphs(number: 5).join
 end
 
 def f_note
@@ -20,10 +20,18 @@ end
 
 search = JobSearch.create!(name: "test search")
 
-search.jobs << Job.new(title: "Full-stack web developer", posted: 20210501, closed: 20210530, description: Faker::Lorem.paragraphs(number: 5).join)
-search.jobs << Job.new(title: "Front-end web developer", posted: 20210504, closed: 20210523, description: Faker::Lorem.paragraphs(number: 5).join)
-search.jobs << Job.new(title: "Full-stack web developer", posted: 20210420, closed: 20210526, description: Faker::Lorem.paragraphs(number: 5).join)
-search.jobs << Job.new(title: "Full-stack web developer", posted: 20210512, closed: 20210610, description: Faker::Lorem.paragraphs(number: 5).join)
+job_titles = ["Full-stack web developer","Front-end web developer","Web developer II","Jr. Software Engineer"]
+
+
+job_titles.each do |job|
+  search.jobs << Job.new(title: job, 
+                      posted: 20210501, 
+                      closed: 20210530, 
+                      description: f_description, 
+                      recruiter_name: f_recruiter, 
+                      recruiter_phone: f_phone, 
+                      recruiter_email: f_email, )
+end
 
 job = Job.first
 job_2 = Job.second

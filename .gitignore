@@ -27,3 +27,4 @@ jat-iron-api.byebug_history
 jat-iron-api/config/master.key
 
 node_modules
+frontend/scripts/response-examples.js

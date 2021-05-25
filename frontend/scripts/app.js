@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", init)
 
 const adapter = new Adapter("http://127.0.0.1:3000")
+const _ = new Utils();
 
 function init(evt){
   

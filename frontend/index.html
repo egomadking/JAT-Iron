@@ -14,8 +14,8 @@
 <body>
   <nav class="navbar is-light" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-      <div class="navbar-item" href="/">
-        <button class="button is-light">
+      <div class="navbar-item">
+        <button class="button is-light" id="logo-button">
           <img src="images/jat-iron.svg" width="112" height="28">
         </button>
       </div>
@@ -30,7 +30,7 @@
     <div id="top-navbar" class="navbar-menu ">
 
       <div class="navbar-item">
-        <button class="button is-light">
+        <button class="button is-light" id="new-job-button">
           New Job
         </button>
       </div>
@@ -41,22 +41,22 @@
         </a>
 
         <div class="navbar-dropdown buttons">
-          <button class="button navbar-item is-fullwidth">
+          <button class="button navbar-item is-fullwidth" id="job-filter--new">
             New
           </button>
-          <button class="button navbar-item is-fullwidth">
+          <button class="button navbar-item is-fullwidth" id="job-filter--applied">
             Applied
           </button>
-          <button class="button navbar-item is-fullwidth">
+          <button class="button navbar-item is-fullwidth" id="job-filter--interviewing">
             Interviewing
           </button>
-          <button class="button navbar-item is-fullwidth">
+          <button class="button navbar-item is-fullwidth" id="job-filter--offer">
             Offer
           </button>
-          <button class="button navbar-item is-fullwidth">
+          <button class="button navbar-item is-fullwidth" id="job-filter--accepted">
             Accepted
           </button>
-          <hr class="navbar-divider">
+          <hr class="navbar-divider" id="job-filtered--canx">
           <button class="button navbar-item is-fullwidth">
             Rejected/Declined/Closed
           </button>
@@ -66,7 +66,7 @@
 
     <div class="navbar-end">
       <div class="navbar-item">
-        <button class="button is-link">
+        <button class="button is-link" id="session-button">
           Choose Search Session
         </button>
       </div>
@@ -77,20 +77,80 @@
 
   <section class="section">
     <div class="container">
-      <h1 class="title">
-        Hello World
+      <h1 class="title ">
+        Prospective Jobs
       </h1>
-      <p class="subtitle">
-        My first website with <strong>Bulma</strong>!
-      </p>
+      <ul class="container" id="jobs-list">
+        <li class="block">
+          <div class="card">
+            <header class="card-header">
+              <div class="media-left">
+                <figure class="image is-48x48">
+                  <img src="images/pin.svg" alt="Placeholder image">
+                </figure>
+              </div>
+              <p class="card-header-title">
+
+                This is a job title
+              </p>
+            </header>
+            <div class="card-content">
+              <div class="content">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris.
+                <a href="#">@bulmaio</a>. <a href="#">#css</a> <a href="#">#responsive</a>
+                <br>
+                <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+              </div>
+            </div>
+            <footer class="card-footer">
+              <a href="#" class="card-footer-item">Show</a>
+              <a href="#" class="card-footer-item">Edit</a>
+              <a href="#" class="card-footer-item">Add Note</a>
+              <a href="#" class="card-footer-item">Delete</a>
+            </footer>
+          </div>
+        </li>
+        <li class="block">
+
+          <div class="card">
+            <header class="card-header">
+              <div class="media-left">
+                <figure class="image is-48x48">
+                  <img src="images/pin.svg" alt="Placeholder image">
+                </figure>
+              </div>
+              <p class="card-header-title">
+
+                This is a job title
+              </p>
+            </header>
+            <div class="card-content">
+              <div class="content">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris.
+                <a href="#">@bulmaio</a>. <a href="#">#css</a> <a href="#">#responsive</a>
+                <br>
+                <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+              </div>
+            </div>
+            <footer class="card-footer">
+              <a href="#" class="card-footer-item">Show</a>
+              <a href="#" class="card-footer-item">Edit</a>
+              <a href="#" class="card-footer-item">Add Note</a>
+              <a href="#" class="card-footer-item">Delete</a>
+            </footer>
+          </div>
+        </li>
+      </ul>
     </div>
   </section>
 
   <div class="section has-shadow local-is-hidden" id="work-pane">
+    <button class="button is-danger" id="close-work-pane-button">✕</button>
     <h2>Work pane</h2>
-  </div>  
+  </div>
 
   <script src="scripts/utils.js"></script>
+  <script src="scripts/ui.js"></script>
   <script src="scripts/adapters.js"></script>
   <script src="scripts/job-search.js"></script>
   <script src="scripts/jobs.js"></script>

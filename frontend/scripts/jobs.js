@@ -3,9 +3,8 @@ class Job {
     this.id = obj.id;
     this.title = obj.title;
     this.url = obj.url || 'none provided';
-    this.company_logo =
-      obj.this.company_logo || 'images/suitcase.png';
-    this.description = obje.description;
+    this.company_logo = obj.company_logo || 'images/suitcase.png';
+    this.description = obj.description;
     this.recruiter_name = obj.recruiter_name;
     this.recruiter_phone = obj.recruiter_name;
     this.recruiter_email = obj.recruiter_email;
@@ -16,8 +15,8 @@ class Job {
   }
 
   buildSummaryCard() {
-    const li = _.createElement({ el: 'li', classes: [] });
-    const card = _.createElement({ el: 'div', classes: [] });
+    const li = _.createElement({ el: 'li', classes: ['block'] });
+    const card = _.createElement({ el: 'div', classes: ['card'] });
     const header = _.createElement({
       el: 'header',
       classes: ['card-header'],

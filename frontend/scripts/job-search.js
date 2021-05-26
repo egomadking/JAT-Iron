@@ -1,6 +1,5 @@
 class JobSearch {
-  constructor(id){
-    this.id = id
+  constructor(id) {
+    this.id = id;
   }
-  
 }

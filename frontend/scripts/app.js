@@ -1,18 +1,18 @@
-document.addEventListener("DOMContentLoaded", init)
+document.addEventListener('DOMContentLoaded', init);
 
-const adapter = new Adapter("http://127.0.0.1:3000")
+const adapter = new Adapter('http://127.0.0.1:3000');
 const _ = new Utils();
 
-function init(evt){
+function init(evt) {
   ui.addHamburgerListeners();
   ui.getUiButtons();
 
   let storedId = adapter.getStoredId();
-  if(storedId){
-    adapter.getJobSearch(storedId)
+  if (storedId) {
+    adapter.getJobSearch(storedId);
   } else {
-    console.log("no id stored yet")
-    adapter.getJobSearches()
+    console.log('no id stored yet');
+    adapter.getJobSearches();
   }
   /*
 

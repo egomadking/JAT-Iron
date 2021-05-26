@@ -4,21 +4,25 @@ const adapter = new Adapter("http://127.0.0.1:3000")
 const _ = new Utils();
 
 function init(evt){
-  
-  // Get all "navbar-burger" elements
-  const $navbarBurgers = Array.from(document.querySelectorAll('.navbar-burger'));
-  if ($navbarBurgers.length > 0) {
-    $navbarBurgers.forEach( el => {
-      el.addEventListener('click', () => {
+  ui.addHamburgerListeners();
+  ui.getUiButtons();
 
-        // Get the target from the "data-target" attribute
-        const target = el.dataset.target;
-        const $target = document.getElementById(target);
-
-        el.classList.toggle('is-active');
-        $target.classList.toggle('is-active');
-
-      });
-    });
+  let storedId = adapter.getStoredId();
+  if(storedId){
+    adapter.getJobSearch(storedId)
+  } else {
+    console.log("no id stored yet")
+    adapter.getJobSearches()
   }
+  /*
+
+  if localStorage has jobSearchId
+    load jobSearch with jobSearchId
+    make ChooseSearchSession low key
+  else
+    load workspace with option to choose or createNew jobSearch
+      load jobSearch and save jobSearchId to sessionStorage
+      or
+      create jobSearch (post) and save response's id to sessionStorage
+  */
 }

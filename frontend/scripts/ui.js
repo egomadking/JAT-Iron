@@ -1,5 +1,11 @@
-const ui = {
-  addHamburgerListeners: function () {
+class Ui {
+  constructor() {
+    this.addHamburgerListeners();
+    this.getUiButtons();
+    this.getUiTargets();
+  }
+
+  addHamburgerListeners() {
     const $navbarBurgers = Array.from(
       document.querySelectorAll('.navbar-burger'),
     );
@@ -15,8 +21,8 @@ const ui = {
         });
       });
     }
-  },
-  getUiButtons: function () {
+  }
+  getUiButtons() {
     this.logoButton = document.querySelector('#logo-button');
     this.sessionButton = document.querySelector('#session-button');
     this.newJobButton = document.querySelector('#new-job-button');
@@ -24,20 +30,24 @@ const ui = {
     this.jobFilterAppliedButton = document.querySelector(
       '#job-filter--applied',
     );
-    this.jobFilterInterviewingButton = document.querySelector(
+    this.jobInterviewingViewButton = document.querySelector(
       '#job-filter--interviewing',
     );
-    this.jobFilterOfferButton = document.querySelector(
+    this.jobOfferViewButton = document.querySelector(
       '#job-filter--offer',
     );
-    this.jobFilterAcceptedButton = document.querySelector(
+    this.jobAcceptedViewButton = document.querySelector(
       '#job-filter--accepted',
     );
-    this.jobFilterCanxButton = document.querySelector(
+    this.jobCanxViewButton = document.querySelector(
       '#job-filter--canx',
     );
-    this.closeWorkPaneButton = document.querySelector(
+    this.workPaneCloseButton = document.querySelector(
       '#close-work-pane-button',
     );
-  },
-};
+  }
+  getUiTargets() {
+    this.jobsList = document.querySelector('#jobs-list');
+    this.workPane = document.querySelector('#work-pane');
+  }
+}

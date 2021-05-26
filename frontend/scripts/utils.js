@@ -1,6 +1,6 @@
 class Utils{
 
-  createElement(el, classes){
+  createElement({el, classes}){
     if(typeof el != "string"){
       throw("'el' argument is not a string")
     }

@@ -1,6 +1,6 @@
 #work-pane {
   position: absolute;
-  background-color: #eee;
+  background-color: rgb(243, 243, 243);
   top: 50%;
   left: 50%;
   z-index: 30;
@@ -10,6 +10,7 @@
   transform: translate(-50%, -50%);
   border-radius: 10px;
   box-shadow: 10px 10px 10px rgb(0, 0, 0, 30%);
+  overflow: auto;
 }
 
 #work-pane.local-is-hidden {

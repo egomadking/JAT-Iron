@@ -23,6 +23,25 @@ class Adapter {
         console.dir(json);
       });
   }
+  postJobSearch(name, callback) {
+    const configObj = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify({ name: name }),
+    };
+    fetch(`${this.baseUrl}/job_searches`, configObj)
+      .then((resp) => resp.json())
+      .then((json) => {
+        if (callback) {
+          callback(json);
+        }
+        console.log(json);
+      });
+    //TODO build create action based on name
+  }
   getJob(id, callback) {
     fetch(`${this.baseUrl}/jobs/${id}`)
       .then((resp) => resp.json())

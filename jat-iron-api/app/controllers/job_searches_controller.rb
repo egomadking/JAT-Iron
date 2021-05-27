@@ -11,7 +11,8 @@ class JobSearchesController < ApplicationController
   end
 
   def create
-    #TODO: JobSearches create action
+    job_search = JobSearch.create(name: params[:name])
+    render json: JobSearchSerializer.new(job_search).to_serialized_json
   end
 
   def delete

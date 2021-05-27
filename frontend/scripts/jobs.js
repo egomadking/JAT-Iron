@@ -6,8 +6,8 @@ class Job {
     this.company_logo = obj.company_logo || 'images/suitcase.png';
     this.description = obj.description;
     this.recruiter_name = obj.recruiter_name;
-    this.recruiter_phone = obj.recruiter_name;
-    this.recruiter_email = obj.recruiter_email;
+    this.recruiter_phone = obj.recruiter_phone;
+    this.recruiter_email = obj.recruiter_email || '';
     this.poc_notes = obj.poc_notes || '';
     this.posted = obj.posted;
     this.closed = obj.closed;
@@ -67,7 +67,46 @@ class Job {
     return li;
   }
 
-  //TODO: buildViewJob()
+  buildViewJob() {
+    const cardHeader = _.createElement({
+      el: 'div',
+      classes: ['card-header'],
+    });
+    cardHeader.innerHTML = `
+      <div class="media-left ml-3">
+        <figure class="image is-64x64">
+          <img src="${this.company_logo}" alt="logo">
+        </figure>
+      </div>
+      <h2 class="card-header-title title mb-2">${this.title}</h2>
+      
+      <div class="media-right">
+        <button class="button delete is-dark" id="close-work-pane-button"></button>
+      </div>
+    `;
+    const cardContent = _.createElement({
+      el: 'div',
+      classes: ['card-content'],
+    });
+    cardContent.innerHTML = `
+      <h2 class="block subtitle"><a href="#">Company Name, Location</a></h2>
+      <div class="block box">
+        <h3>Recruiter: ${this.recruiter_name}</h3>
+        ${function () {
+          if (!this.recruiter_email === '') {
+            return `<h3><a href="mailto:"${this.recruiter_email}">${this.recruiter_email}</a></h3>`;
+          }
+        }}
+        <h3><a href="tel:${this.recruiter_phone}">${
+      this.recruiter_phone
+    }</a></h3>
+        <p class="is-italic">${this.poc_notes}</p>
+      </div>
+        <div class="content">
+          ${this.description}
+        </div>
+    `;
+  }
   //TODO: buildEditJob()
   //TODO: buildNewJob()
 }

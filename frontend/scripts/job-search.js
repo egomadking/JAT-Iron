@@ -1,6 +1,7 @@
 class JobSearch {
   constructor(id) {
     this._id = id || 0;
+    this._jobs = [];
   }
   get id() {
     return this._id;
@@ -10,7 +11,15 @@ class JobSearch {
     this._id = id;
   }
 
-  buildJobSearchForm() {
+  set jobs(arr) {
+    this._jobs = [...arr];
+  }
+
+  get jobs() {
+    return this._jobs || [];
+  }
+
+  buildJobSearchForm(jobSearchesObj) {
     const cardHeader = _.createElement({
       el: 'div',
       classes: ['card-header'],
@@ -22,27 +31,26 @@ class JobSearch {
         </figure>
       </div>
       <h2 class="card-header-title">Select or create new job search</h2>
-      <div class="media-right">
-        <button class="button delete is-dark" id="close-work-pane-button"></button>
-      </div>
     `;
     const cardContent = _.createElement({
       el: 'div',
       classes: ['card-content'],
     });
-    //TODO: generate existing job search buttons and insert into cardContent's innerHTML
-    const existingJobSearches = 'something';
     cardContent.innerHTML = `
       <h3 class="block">Choose an existing job search session</h3>
       <div class="block" id="existing-job-searches">
-        <button class="button">Search 1</button>
-        <button class="button">Search 2</button>
-        <button class="button">Search 3</button>
-        <button class="button">Search 45</button>
+        ${(function () {
+          return jobSearchesObj
+            .map((jobSearch) => {
+              return `<button class="button" data-type="existing" data-id="${jobSearch.id}">
+                ${jobSearch.name}
+                </button>`;
+            })
+            .join('');
+        })()}
       </div>
       <h3 class="block">...or create a new job search</h3>
-
-      <form action="">
+      <div class="block">
         <div class="field">
           <label class="label">Session Name</label>
           <div class="control">
@@ -51,14 +59,27 @@ class JobSearch {
         </div>
         <div class="field is-grouped">
           <div class="control">
-            <button class="button is-link">Create</button>
+            <button class="button is-link" data-type="new">Create</button>
           </div>
         </div>
-      </form>
+      </div>
     `;
+
+    cardContent.addEventListener('click', function (evt) {
+      if (evt.target.tagName === 'BUTTON') {
+        if (evt.target.dataset.type === 'existing') {
+          jobSearch.id = parseInt(evt.target.dataset.id);
+          //do something to load jobs
+        } else if (evt.target.dataset.type === 'new') {
+        } else {
+          throw 'An unknown button was detected';
+        }
+      }
+    });
     ui.workPane.appendChild(cardHeader);
     ui.workPane.appendChild(cardContent);
-    //TODO: Submit button event listener
+
+    //TODO: JobSearches and Submit buttons event listeners
   }
 
   //TODO: loadJobs

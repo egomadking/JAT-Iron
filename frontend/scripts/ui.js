@@ -42,18 +42,16 @@ class Ui {
     this.jobCanxViewButton = document.querySelector(
       '#job-filter--canx',
     );
-    this.workPaneCloseButton = document.querySelector(
-      '#close-work-pane-button',
-    );
   }
   getUiTargets() {
     this.jobsList = document.querySelector('#jobs-list');
     this.workPane = document.querySelector('#work-pane');
   }
-  redrawJobList(nodes) {
+  redrawJobList(nodeArray) {
     //TODO: takes in HTML and overwrites contents of ui.jobsList
   }
-  redrawWorkPane(node) {
+  redrawWorkPane({ header, content }) {
     //TODO: takes in HTML and overwrites contents of ui.workPane
   }
+  clearWorkPane() {}
 }

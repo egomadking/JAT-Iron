@@ -67,7 +67,7 @@ class Job {
     return li;
   }
 
-  //TODO: buildJobWorkPane()
-  //TODO: buildJobEditForm()
-  //TODO: buildNewJobForm()
+  //TODO: buildViewJob()
+  //TODO: buildEditJob()
+  //TODO: buildNewJob()
 }

@@ -50,4 +50,10 @@ class Ui {
     this.jobsList = document.querySelector('#jobs-list');
     this.workPane = document.querySelector('#work-pane');
   }
+  redrawJobList(nodes) {
+    //TODO: takes in HTML and overwrites contents of ui.jobsList
+  }
+  redrawWorkPane(node) {
+    //TODO: takes in HTML and overwrites contents of ui.workPane
+  }
 }

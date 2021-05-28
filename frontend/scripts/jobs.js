@@ -53,10 +53,10 @@ class Job {
       classes: ['card-footer'],
     });
     cardFooter.innerHTML = `
-      <a href="#" class="card-footer-item" data-type="show" data-id="${this.id}">Show</a>
-      <a href="#" class="card-footer-item" data-type="edit" data-id="${this.id}">Edit</a>
-      <a href="#" class="card-footer-item" data-type="add-note" data-id="${this.id}">Add Note(#)</a>
-      <a href="#" class="card-footer-item" data-type="delete" data-id="${this.id}">Delete</a>
+      <button class="card-footer-item button" data-type="show" data-id="${this.id}">Show</button>
+      <button class="card-footer-item button" data-type="edit" data-id="${this.id}">Edit</button>
+      <button class="card-footer-item button" data-type="add-note" data-id="${this.id}">Add Note(#)</button>
+      <button class="card-footer-item button" data-type="delete" data-id="${this.id}">Delete</button>
     `;
 
     li.appendChild(card);
@@ -88,25 +88,34 @@ class Job {
       el: 'div',
       classes: ['card-content'],
     });
+    let recruiterEmail = this.recruiter_email;
+    if (!this.recruiter_email === '') {
+      recruiterEmail = `<h3><a href="mailto:"${this.recruiter_email}">${this.recruiter_email}</a>`;
+    }
     cardContent.innerHTML = `
       <h2 class="block subtitle"><a href="#">Company Name, Location</a></h2>
       <div class="block box">
         <h3>Recruiter: ${this.recruiter_name}</h3>
-        ${function () {
-          if (!this.recruiter_email === '') {
-            return `<h3><a href="mailto:"${this.recruiter_email}">${this.recruiter_email}</a></h3>`;
-          }
-        }}
-        <h3><a href="tel:${this.recruiter_phone}">${
-      this.recruiter_phone
-    }</a></h3>
+        ${recruiterEmail}
+        <h3><a href="tel:${this.recruiter_phone}">
+        ${this.recruiter_phone}</a></h3>
         <p class="is-italic">${this.poc_notes}</p>
       </div>
         <div class="content">
           ${this.description}
         </div>
     `;
+
+    const closeBtn = cardHeader.querySelector(
+      '#close-work-pane-button',
+    );
+    closeBtn.addEventListener('click', ui.hideWorkPane);
+    ui.workPane.appendChild(cardHeader);
+    ui.workPane.appendChild(cardContent);
+    ui.showWorkPane();
   }
+
+  buildEditJob() {}
   //TODO: buildEditJob()
   //TODO: buildNewJob()
 }

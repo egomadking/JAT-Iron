@@ -119,45 +119,43 @@ class JobSearch {
     ui.workPane.appendChild(cardContent);
   }
 
-  populateJobsList(arr) {
+  populateJobsList = (arr) => {
     arr.forEach((job) => {
       const card = job.buildSummaryCard();
       ui.jobsList.appendChild(card);
     });
-    ui.jobsList.addEventListener('click', function (evt) {
-      if (evt.target.tagName === 'BUTTON') {
-        switch (evt.target.dataset.type) {
-          case 'show':
-            console.log(`#${evt.target.dataset.id} something showy`);
-            jobSearch.jobs
-              .find((j) => {
-                return j.id === parseInt(evt.target.dataset.id);
-              })
-              .buildViewJob();
-            //do something showy
-            break;
-          case 'edit':
-            //TODO: do something edity
-            console.log(`#${evt.target.dataset.id} something edity`);
-            break;
-          case 'add-note':
-            //TODO: do something showy
-            //TODO: and do something edity
-            console.log(`#${evt.target.dataset.id} something notey`);
-            break;
-          case 'delete':
-            //TODO:do something deletey
-            console.log(
-              `#${evt.target.dataset.id} something deletey`,
-            );
-            break;
-          default:
-            console.warn('Case does not match existing options.');
-            break;
-        }
+
+    ui.jobsList.addEventListener(
+      'click',
+      this.handleJobSummaryButtons,
+    );
+  };
+
+  handleJobSummaryButtons = (evt) => {
+    if (evt.target.tagName === 'BUTTON') {
+      const jobId = parseInt(evt.target.dataset.id);
+      switch (evt.target.dataset.type) {
+        case 'show':
+          this.jobs.find((j) => j.id === jobId).buildViewJob();
+          break;
+        case 'edit':
+          this.jobs.find((j) => j.id === jobId).buildEditJob();
+          break;
+        case 'add-note':
+          //TODO: do something showy
+          //TODO: and do something edity
+          console.log(`#${evt.target.dataset.id} something notey`);
+          break;
+        case 'delete':
+          //TODO:do something deletey
+          console.log(`#${evt.target.dataset.id} something deletey`);
+          break;
+        default:
+          console.warn('Case does not match existing options.');
+          break;
       }
-    });
-  }
+    }
+  };
 
   filterJobsByStatus(status) {
     let filteredJobs;

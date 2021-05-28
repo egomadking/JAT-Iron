@@ -10,7 +10,6 @@ class Adapter {
         if (callback) {
           callback(json);
         }
-        console.dir(json);
       });
   }
   getJobSearch(id, callback) {
@@ -20,7 +19,6 @@ class Adapter {
         if (callback) {
           callback(json);
         }
-        console.dir(json);
       });
   }
   postJobSearch(name, callback) {
@@ -38,7 +36,6 @@ class Adapter {
         if (callback) {
           callback(json);
         }
-        console.log(json);
       });
     //TODO build create action based on name
   }
@@ -49,7 +46,6 @@ class Adapter {
         if (callback) {
           callback(json);
         }
-        console.dir(json);
       });
   }
 

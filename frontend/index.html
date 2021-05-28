@@ -35,29 +35,32 @@
         </button>
       </div>
 
-      <div class="navbar-item has-dropdown is-hoverable">
+      <div class="navbar-item has-dropdown is-hoverable" >
         <a class="navbar-link">
           Jobs by status
         </a>
 
-        <div class="navbar-dropdown buttons">
-          <button class="button navbar-item is-fullwidth" id="job-filter--new">
+        <div class="navbar-dropdown buttons" id="filter-buttons">
+          <button class="button navbar-item is-fullwidth" data-filter-by="all">
+            Show All
+          </button>
+          <button class="button navbar-item is-fullwidth" data-filter-by="new">
             New
           </button>
-          <button class="button navbar-item is-fullwidth" id="job-filter--applied">
+          <button class="button navbar-item is-fullwidth" data-filter-by="applied">
             Applied
           </button>
-          <button class="button navbar-item is-fullwidth" id="job-filter--interviewing">
+          <button class="button navbar-item is-fullwidth" data-filter-by="interviewing">
             Interviewing
           </button>
-          <button class="button navbar-item is-fullwidth" id="job-filter--offer">
+          <button class="button navbar-item is-fullwidth" data-filter-by="offer">
             Offer
           </button>
-          <button class="button navbar-item is-fullwidth" id="job-filter--accepted">
+          <button class="button navbar-item is-fullwidth" data-filter-by="accepted">
             Accepted
           </button>
-          <hr class="navbar-divider" id="job-filtered--canx">
-          <button class="button navbar-item is-fullwidth">
+          <hr class="navbar-divider" >
+          <button class="button navbar-item is-fullwidth" data-filter-by="canx">
             Rejected/Declined/Closed
           </button>
         </div>

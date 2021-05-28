@@ -13,31 +13,17 @@ function init(evt) {
     adapter.getJobSearch(storedId, function (json) {
       jobSearch.id = storedId;
       jobSearch.jobs = json.jobs;
+      jobSearch.jobs.forEach((job) => {
+        let card = job.buildSummaryCard();
+        ui.jobsList.appendChild(card);
+      });
     });
-    //TODO: add jobs into JobSearch and populate page
   } else {
-    console.log('no id stored yet');
+    //TODO: this is rough but works
+    ui.workPane.classList.remove('local-is-hidden');
     adapter.getJobSearches(function (json) {
       debugJobSearch = json;
       jobSearch.buildJobSearchForm(json);
     });
   }
-  /*
-
-  if localStorage has jobSearchId
-    load jobSearch with jobSearchId
-    make ChooseSearchSession low key
-  else
-    load workspace with option to choose or createNew jobSearch
-      load jobSearch and save jobSearchId to sessionStorage
-      or
-      create jobSearch (post) and save response's id to sessionStorage
-  */
 }
-
-// prototype autogen card
-// let jobCard;
-// adapter.getJob(1, function (json) {
-//   const job = new Job(json).buildSummaryCard();
-//   ui.jobsList.appendChild(job);
-// });

@@ -79,18 +79,17 @@ class JobSearch {
           adapter.getJobSearch(
             parseInt(evt.target.dataset.id),
             function (json) {
-              console.log(this);
               jobSearch.id = json.id;
               jobSearch.name = json.name;
               jobSearch.jobs = json.jobs;
 
               jobSearch.populateJobsList(jobSearch.jobs);
 
-              ui.workPane.classList.add('local-is-hidden');
+              ui.hideWorkPane();
               setTimeout(function () {
                 ui.workPane.innerText = '';
               }, 300);
-              ui.workPane.classList.add('local-is-hidden');
+
               ui.sessionButton.innerText = jobSearch.name;
               adapter.setStoredId(json.id);
             },
@@ -106,10 +105,7 @@ class JobSearch {
             adapter.postJobSearch(field.value, function (json) {
               jobSearch.id = json.id;
               jobSearch.name = json.name;
-              ui.workPane.classList.add('local-is-hidden');
-              setTimeout(function () {
-                ui.workPane.innerText = '';
-              }, 300);
+              ui.hideWorkPane();
               ui.sessionButton.innerText = jobSearch.name;
               adapter.setStoredId(json.id);
             });

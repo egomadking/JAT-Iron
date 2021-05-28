@@ -17,3 +17,8 @@
   transition: transform 350ms ease-in-out;
   transform: translate(-160%, -50%);
 }
+
+body.scroll-disabled {
+  height: 100vh;
+  overflow: hidden;
+}

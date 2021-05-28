@@ -124,6 +124,39 @@ class JobSearch {
       const card = job.buildSummaryCard();
       ui.jobsList.appendChild(card);
     });
+    ui.jobsList.addEventListener('click', function (evt) {
+      if (evt.target.tagName === 'BUTTON') {
+        switch (evt.target.dataset.type) {
+          case 'show':
+            console.log(`#${evt.target.dataset.id} something showy`);
+            jobSearch.jobs
+              .find((j) => {
+                return j.id === parseInt(evt.target.dataset.id);
+              })
+              .buildViewJob();
+            //do something showy
+            break;
+          case 'edit':
+            //TODO: do something edity
+            console.log(`#${evt.target.dataset.id} something edity`);
+            break;
+          case 'add-note':
+            //TODO: do something showy
+            //TODO: and do something edity
+            console.log(`#${evt.target.dataset.id} something notey`);
+            break;
+          case 'delete':
+            //TODO:do something deletey
+            console.log(
+              `#${evt.target.dataset.id} something deletey`,
+            );
+            break;
+          default:
+            console.warn('Case does not match existing options.');
+            break;
+        }
+      }
+    });
   }
 
   filterJobsByStatus(status) {

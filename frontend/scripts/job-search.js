@@ -93,6 +93,7 @@ class JobSearch {
               }, 300);
               ui.workPane.classList.add('local-is-hidden');
               ui.sessionButton.innerText = jobSearch.name;
+              adapter.setStoredId(json.id);
             },
           );
 
@@ -112,6 +113,7 @@ class JobSearch {
                 ui.workPane.innerText = '';
               }, 300);
               ui.sessionButton.innerText = jobSearch.name;
+              adapter.setStoredId(json.id);
             });
           }
         } else {

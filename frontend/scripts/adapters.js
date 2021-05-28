@@ -53,6 +53,12 @@ class Adapter {
       });
   }
 
+  //TODO: postJob
+  postJob(jobObj, callback) {}
+
+  //TODO: updateJob
+  updateJob(jobObj, callback) {}
+
   getStoredId() {
     let id = window.sessionStorage.getItem('jobSearchId');
     if (id) {

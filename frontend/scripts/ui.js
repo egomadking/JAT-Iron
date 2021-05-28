@@ -32,6 +32,7 @@ class Ui {
   getUiTargets() {
     this.jobsList = document.querySelector('#jobs-list');
     this.workPane = document.querySelector('#work-pane');
+    this.body = document.querySelector('body');
   }
   setUiButtonEventListeners() {
     this.sessionButton.addEventListener('click', function (evt) {
@@ -50,21 +51,23 @@ class Ui {
       jobSearch.filterJobsByStatus('all');
     });
   }
-  hideWorkPane() {
-    if (![...ui.workPane.classList].includes('local-is-hidden')) {
-      ui.workPane.classList.add('local-is-hidden');
-      setTimeout(function () {
-        ui.workPane.innerText = '';
+  hideWorkPane = () => {
+    if (![...this.workPane.classList].includes('local-is-hidden')) {
+      this.workPane.classList.add('local-is-hidden');
+      this.body.classList.remove('scroll-disabled');
+      setTimeout(() => {
+        this.workPane.innerText = '';
       }, 300);
     } else {
       console.warn('Workpane is already hidden. Check your state.');
     }
-  }
-  showWorkPane() {
-    if ([...ui.workPane.classList].includes('local-is-hidden')) {
-      ui.workPane.classList.remove('local-is-hidden');
+  };
+  showWorkPane = () => {
+    if ([...this.workPane.classList].includes('local-is-hidden')) {
+      this.workPane.classList.remove('local-is-hidden');
+      this.body.classList.add('scroll-disabled');
     } else {
       console.warn('Workpane is already shown. Check your state.');
     }
-  }
+  };
 }

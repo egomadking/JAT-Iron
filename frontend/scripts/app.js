@@ -17,7 +17,7 @@ function init(evt) {
     });
   } else {
     //TODO: this is rough but works
-    ui.workPane.classList.remove('local-is-hidden');
+    ui.showWorkPane();
     adapter.getJobSearches(function (json) {
       debugJobSearch = json;
       jobSearch.buildJobSearchForm(json);

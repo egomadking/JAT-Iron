@@ -53,10 +53,10 @@ class Job {
       classes: ['card-footer'],
     });
     cardFooter.innerHTML = `
-      <a href="#" class="card-footer-item">Show</a>
-      <a href="#" class="card-footer-item">Edit</a>
-      <a href="#" class="card-footer-item">Add Note(#)</a>
-      <a href="#" class="card-footer-item">Delete</a>
+      <a href="#" class="card-footer-item" data-type="show" data-id="${this.id}">Show</a>
+      <a href="#" class="card-footer-item" data-type="edit" data-id="${this.id}">Edit</a>
+      <a href="#" class="card-footer-item" data-type="add-note" data-id="${this.id}">Add Note(#)</a>
+      <a href="#" class="card-footer-item" data-type="delete" data-id="${this.id}">Delete</a>
     `;
 
     li.appendChild(card);

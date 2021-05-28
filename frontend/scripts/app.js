@@ -13,10 +13,7 @@ function init(evt) {
     adapter.getJobSearch(storedId, function (json) {
       jobSearch.id = storedId;
       jobSearch.jobs = json.jobs;
-      jobSearch.jobs.forEach((job) => {
-        let card = job.buildSummaryCard();
-        ui.jobsList.appendChild(card);
-      });
+      jobSearch.populateJobsList(jobSearch.jobs);
     });
   } else {
     //TODO: this is rough but works

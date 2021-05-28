@@ -73,6 +73,7 @@ class JobSearch {
 
     cardContent.addEventListener('click', function (evt) {
       if (evt.target.tagName === 'BUTTON') {
+        ui.jobsList.innerText = '';
         if (evt.target.dataset.type === 'existing') {
           adapter.getJobSearch(
             parseInt(evt.target.dataset.id),
@@ -86,6 +87,10 @@ class JobSearch {
                 let card = job.buildSummaryCard();
                 ui.jobsList.appendChild(card);
               });
+              ui.workPane.classList.add('local-is-hidden');
+              setTimeout(function () {
+                ui.workPane.innerText = '';
+              }, 300);
               ui.workPane.classList.add('local-is-hidden');
               ui.sessionButton.innerText = jobSearch.name;
             },
@@ -103,6 +108,9 @@ class JobSearch {
               jobSearch.id = json.id;
               jobSearch.name = json.name;
               ui.workPane.classList.add('local-is-hidden');
+              setTimeout(function () {
+                ui.workPane.innerText = '';
+              }, 300);
               ui.sessionButton.innerText = jobSearch.name;
             });
           }

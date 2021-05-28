@@ -27,22 +27,7 @@ class Ui {
     this.logoButton = document.querySelector('#logo-button');
     this.sessionButton = document.querySelector('#session-button');
     this.newJobButton = document.querySelector('#new-job-button');
-    this.jobFilterNew = document.querySelector('#job-filter--new');
-    this.jobFilterAppliedButton = document.querySelector(
-      '#job-filter--applied',
-    );
-    this.jobInterviewingViewButton = document.querySelector(
-      '#job-filter--interviewing',
-    );
-    this.jobOfferViewButton = document.querySelector(
-      '#job-filter--offer',
-    );
-    this.jobAcceptedViewButton = document.querySelector(
-      '#job-filter--accepted',
-    );
-    this.jobCanxViewButton = document.querySelector(
-      '#job-filter--canx',
-    );
+    this.jobFilterButtons = document.querySelector('#filter-buttons');
   }
   getUiTargets() {
     this.jobsList = document.querySelector('#jobs-list');
@@ -54,6 +39,16 @@ class Ui {
         jobSearch.buildJobSearchForm(json);
         ui.workPane.classList.remove('local-is-hidden');
       });
+    });
+    this.jobFilterButtons.addEventListener('click', function (evt) {
+      if (evt.target.tagName === 'BUTTON') {
+        const filter = evt.target.dataset.filterBy;
+        console.log(evt.target.dataset.filterBy);
+        jobSearch.filterJobsByStatus(filter);
+      }
+    });
+    this.logoButton.addEventListener('click', function (evt) {
+      jobSearch.filterJobsByStatus('all');
     });
   }
   redrawJobList(nodeArray) {

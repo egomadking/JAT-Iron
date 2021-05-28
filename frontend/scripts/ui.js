@@ -43,7 +43,6 @@ class Ui {
     this.jobFilterButtons.addEventListener('click', function (evt) {
       if (evt.target.tagName === 'BUTTON') {
         const filter = evt.target.dataset.filterBy;
-        console.log(evt.target.dataset.filterBy);
         jobSearch.filterJobsByStatus(filter);
       }
     });
@@ -51,11 +50,21 @@ class Ui {
       jobSearch.filterJobsByStatus('all');
     });
   }
-  redrawJobList(nodeArray) {
-    //TODO: takes in HTML and overwrites contents of ui.jobsList
+  hideWorkPane() {
+    if (![...ui.workPane.classList].includes('local-is-hidden')) {
+      ui.workPane.classList.add('local-is-hidden');
+      setTimeout(function () {
+        ui.workPane.innerText = '';
+      }, 300);
+    } else {
+      console.warn('Workpane is already hidden. Check your state.');
+    }
   }
-  redrawWorkPane({ header, content }) {
-    //TODO: takes in HTML and overwrites contents of ui.workPane
+  showWorkPane() {
+    if ([...ui.workPane.classList].includes('local-is-hidden')) {
+      ui.workPane.classList.remove('local-is-hidden');
+    } else {
+      console.warn('Workpane is already shown. Check your state.');
+    }
   }
-  clearWorkPane() {}
 }

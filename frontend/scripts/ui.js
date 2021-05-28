@@ -3,6 +3,7 @@ class Ui {
     this.addHamburgerListeners();
     this.getUiButtons();
     this.getUiTargets();
+    this.setUiButtonEventListeners();
   }
 
   addHamburgerListeners() {
@@ -46,6 +47,14 @@ class Ui {
   getUiTargets() {
     this.jobsList = document.querySelector('#jobs-list');
     this.workPane = document.querySelector('#work-pane');
+  }
+  setUiButtonEventListeners() {
+    this.sessionButton.addEventListener('click', function (evt) {
+      adapter.getJobSearches(function (json) {
+        jobSearch.buildJobSearchForm(json);
+        ui.workPane.classList.remove('local-is-hidden');
+      });
+    });
   }
   redrawJobList(nodeArray) {
     //TODO: takes in HTML and overwrites contents of ui.jobsList

@@ -38,11 +38,17 @@ class Job {
       el: 'div',
       classes: ['card-content'],
     });
+    let recruiterEmail = this.recruiter_email;
+    if (!this.recruiter_email === '') {
+      recruiterEmail = `email: <a href="${this.recruiter_email}">${this.recruiter_email}</a>`;
+    } else {
+      recruiterEmail = 'no email address provided';
+    }
     cardContent.innerHTML = `
       <div class="content">
 
         <p class="block">POC: ${this.recruiter_name} 
-            | email: <a href="${this.recruiter_email}">${this.recruiter_email}</a> 
+            | ${recruiterEmail} 
             | tel: <a href="tel:${this.recruiter_phone}">${this.recruiter_phone}</a></p>
         <p class="block">Open: ${this.posted} Closed ${this.closed}</p>
         
@@ -90,7 +96,9 @@ class Job {
     });
     let recruiterEmail = this.recruiter_email;
     if (!this.recruiter_email === '') {
-      recruiterEmail = `<h3><a href="mailto:"${this.recruiter_email}">${this.recruiter_email}</a>`;
+      recruiterEmail = `<h3><textarea href="mailto:"${this.recruiter_email}">${this.recruiter_email}</a></h3>`;
+    } else {
+      recruiterEmail = `<h3>No email provided</h3>`;
     }
     cardContent.innerHTML = `
       <h2 class="block subtitle"><a href="#">Company Name, Location</a></h2>
@@ -115,7 +123,99 @@ class Job {
     ui.showWorkPane();
   }
 
-  buildEditJob() {}
+  buildEditJob() {
+    const cardHeader = _.createElement({
+      el: 'div',
+      classes: ['card-header'],
+    });
+    cardHeader.innerHTML = `
+      <div class="media-left ml-3">
+        <figure class="image is-64x64">
+          <img src="images/edit.svg" alt="logo">
+        </figure>
+      </div>
+      <h2 class="card-header-title title mb-2">Edit job</h2>
+      
+      <div class="media-right">
+        <button class="button delete is-dark" id="close-work-pane-button"></button>
+      </div>
+    `;
+    const cardContent = _.createElement({
+      el: 'div',
+      classes: ['card-content'],
+    });
+    cardContent.innerHTML = `
+      <form>
+        <div class="field">
+          <label class="label">Title</label>
+          <div class="control">
+            <input class="input" type="text">
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Company or posting URL</label>
+          <div class="control">
+            <input class="input" type="text">
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Company Logo URL</label>
+          <div class="control">
+            <input class="input" type="text">
+          </div>
+        </div>
+
+        <div class="field is-grouped">
+          <label class="label">Recruiter name</label>
+          <div class="control">
+            <input class="input" type="text">
+          </div>
+
+          <label class="label">Email</label>
+          <div class="control">
+            <input class="input" type="text">
+          </div>
+
+          <label class="label">Phone</label>
+          <div class="control">
+            <input class="input" type="text">
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Contact notes</label>
+          <div class="control">
+            <textarea class="textarea" placeholder "include 2nd poc, secondary emails/phones, etc.">
+            </textarea>
+          </div>
+        </div>
+        <div class="field is-grouped">
+          <label class="label">Posted</label>
+          <div class="control">
+            <input class="input" type="date">
+          </div>
+
+          <label class="label">Closed</label>
+          <div class="control">
+            <input class="input" type="date">
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Details</label>
+          <div class="control">
+            <textarea class="textarea" placeholder "full job description copypaste">
+            </textarea>
+          </div>
+        </div>
+      </form>
+    `;
+    const closeBtn = cardHeader.querySelector(
+      '#close-work-pane-button',
+    );
+    closeBtn.addEventListener('click', ui.hideWorkPane);
+    ui.workPane.appendChild(cardHeader);
+    ui.workPane.appendChild(cardContent);
+    ui.showWorkPane();
+  }
   //TODO: buildEditJob()
   //TODO: buildNewJob()
 }

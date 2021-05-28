@@ -75,18 +75,17 @@ class JobSearch {
       if (evt.target.tagName === 'BUTTON') {
         ui.jobsList.innerText = '';
         if (evt.target.dataset.type === 'existing') {
+          jobSearch.jobs = [];
           adapter.getJobSearch(
             parseInt(evt.target.dataset.id),
             function (json) {
-              //TODO: This is wet when combined with new below
               console.log(this);
               jobSearch.id = json.id;
               jobSearch.name = json.name;
               jobSearch.jobs = json.jobs;
-              jobSearch.jobs.forEach((job) => {
-                let card = job.buildSummaryCard();
-                ui.jobsList.appendChild(card);
-              });
+
+              jobSearch.populateJobsList(jobSearch.jobs);
+
               ui.workPane.classList.add('local-is-hidden');
               setTimeout(function () {
                 ui.workPane.innerText = '';
@@ -96,8 +95,6 @@ class JobSearch {
               adapter.setStoredId(json.id);
             },
           );
-
-          //set sessionStorage
         } else if (evt.target.dataset.type === 'new') {
           const field = document.querySelector('#new-session-name');
           if (field.value.length < 3) {
@@ -105,6 +102,7 @@ class JobSearch {
               'Session name needs to be greater than 3 characters long',
             );
           } else {
+            jobSearch.jobs = [];
             adapter.postJobSearch(field.value, function (json) {
               jobSearch.id = json.id;
               jobSearch.name = json.name;
@@ -123,11 +121,34 @@ class JobSearch {
     });
     ui.workPane.appendChild(cardHeader);
     ui.workPane.appendChild(cardContent);
-
-    //TODO: JobSearches and Submit buttons event listeners
   }
 
-  //TODO: loadJobs
-  //TODO: insertJobs into pane
-  //TODO: sortJobsByStatus
+  populateJobsList(arr) {
+    arr.forEach((job) => {
+      const card = job.buildSummaryCard();
+      ui.jobsList.appendChild(card);
+    });
+  }
+
+  filterJobsByStatus(status) {
+    let filteredJobs;
+    switch (status) {
+      case 'all':
+        filteredJobs = this.jobs;
+        break;
+      case 'canx':
+        const choices = ['closed', 'rejected', 'declined'];
+        filteredJobs = this.jobs.filter((job) =>
+          choices.includes(job.status),
+        );
+        break;
+      default:
+        filteredJobs = this.jobs.filter(
+          (job) => job.status === status,
+        );
+    }
+    //combine those in canx
+    ui.jobsList.innerText = '';
+    this.populateJobsList(filteredJobs);
+  }
 }

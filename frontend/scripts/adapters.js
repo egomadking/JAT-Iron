@@ -37,7 +37,6 @@ class Adapter {
           callback(json);
         }
       });
-    //TODO build create action based on name
   }
   getJob(id, callback) {
     fetch(`${this.baseUrl}/jobs/${id}`)
@@ -53,7 +52,23 @@ class Adapter {
   postJob(jobObj, callback) {}
 
   //TODO: updateJob
-  updateJob(jobObj, callback) {}
+  updateJob(jobObj, callback) {
+    const configObj = {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify(jobObj),
+    };
+    fetch(`${this.baseUrl}/jobs/${jobObj.id}`, configObj)
+      .then((resp) => resp.json())
+      .then((json) => {
+        if (callback) {
+          callback(json);
+        }
+      });
+  }
 
   getStoredId() {
     let id = window.sessionStorage.getItem('jobSearchId');

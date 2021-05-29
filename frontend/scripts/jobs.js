@@ -144,74 +144,129 @@ class Job {
       el: 'div',
       classes: ['card-content'],
     });
+    //TODO: figure out how to select matching Status value
     cardContent.innerHTML = `
-      <form>
+      <form class="form is-grouped">
+        <input type="hidden" value="${JobSearch.id}" data-field="job_search_id">
+        <input type="hidden" value="${this.id}" data-field="id">
         <div class="field">
           <label class="label">Title</label>
           <div class="control">
-            <input class="input" type="text">
+            <input class="input" type="text" value="${this.title}" data-field="title">
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Status</label>
+          <div class="select">
+            <select data-field="status">
+              <option value="new">new</option>
+              <option value="applied">applied</option>
+              <option value="interviewing">interviewing</option>
+              <option value="offer">offer</option>
+              <option value="accepted">accepted</option>
+              <option value="rejected">rejected</option>
+              <option value="declined">declined</option>
+              <option value="closed">closed</option>
+              
+            </select>
           </div>
         </div>
         <div class="field">
           <label class="label">Company or posting URL</label>
-          <div class="control">
-            <input class="input" type="text">
+          <div class="control" >
+            <input class="input" type="text" value="${this.url}" data-field="url">
           </div>
         </div>
         <div class="field">
-          <label class="label">Company Logo URL</label>
+          <label class="label" >Company Logo URL</label>
           <div class="control">
-            <input class="input" type="text">
+            <input class="input" type="text" value="${this.company_logo}" data-field="company_logo">
           </div>
         </div>
 
         <div class="field is-grouped">
           <label class="label">Recruiter name</label>
-          <div class="control">
-            <input class="input" type="text">
+          <div class="control is-expanded">
+            <input class="input" type="text" value="${this.recruiter_name}" data-field="recruiter_name">
           </div>
 
           <label class="label">Email</label>
-          <div class="control">
-            <input class="input" type="text">
+          <div class="control is-expanded">
+            <input class="input" type="text" value="${this.recruiter_email}" data-field="recruiter_email">
           </div>
 
           <label class="label">Phone</label>
-          <div class="control">
-            <input class="input" type="text">
+          <div class="control is-expanded">
+            <input class="input" type="text" value="${this.recruiter_phone}" data-field="recruiter_phone">
           </div>
         </div>
         <div class="field">
           <label class="label">Contact notes</label>
           <div class="control">
-            <textarea class="textarea" placeholder "include 2nd poc, secondary emails/phones, etc.">
+            <textarea class="textarea" placeholder "include 2nd poc, secondary emails/phones, etc." data-field="poc_notes">${this.poc_notes}
             </textarea>
           </div>
         </div>
         <div class="field is-grouped">
           <label class="label">Posted</label>
-          <div class="control">
-            <input class="input" type="date">
+          <div class="control is-expanded">
+            <input class="input" type="date" value="${this.posted}" data-field="posted">
           </div>
 
           <label class="label">Closed</label>
-          <div class="control">
-            <input class="input" type="date">
+          <div class="control is-expanded">
+            <input class="input" type="date" value="${this.closed}" data-field="closed">
           </div>
         </div>
         <div class="field">
-          <label class="label">Details</label>
+          <label class="label">Description</label>
           <div class="control">
-            <textarea class="textarea" placeholder "full job description copypaste">
+            <textarea class="textarea" placeholder "full job description copypaste" data-field="description">
+            ${this.description}
             </textarea>
+          </div>
+        </div>
+        <div class="field is-grouped is-grouped-centered">
+          <div class="control">
+            <button class="button is-primary" id="submit-job-info">
+              Submit
+            </button>
+          </div>
+          <div class="control">
+            <button type="button" class="button is-light" id="cancel-job-info">
+              Cancel
+            </button>
           </div>
         </div>
       </form>
     `;
+    const select = cardContent.querySelector('.select select');
+    select.value = this.status;
+
     const closeBtn = cardHeader.querySelector(
       '#close-work-pane-button',
     );
     closeBtn.addEventListener('click', ui.hideWorkPane);
+
+    const submitJobForm = cardContent.querySelector('form');
+    submitJobForm.addEventListener('submit', (evt) => {
+      const elements = [...submitJobForm.elements];
+
+      elements.forEach((el) => {
+        //TODO: this is where I left off
+        const key = el.dataset.field;
+        const value = el.value;
+        console.log({ [key]: value });
+      });
+    });
+
+    const cancelJobInfo = cardContent.querySelector(
+      '#cancel-job-info',
+    );
+    cancelJobInfo.addEventListener('click', (evt) => {
+      ui.hideWorkPane();
+    });
+
     ui.workPane.appendChild(cardHeader);
     ui.workPane.appendChild(cardContent);
     ui.showWorkPane();

@@ -44,11 +44,11 @@ class Ui {
     this.jobFilterButtons.addEventListener('click', function (evt) {
       if (evt.target.tagName === 'BUTTON') {
         const filter = evt.target.dataset.filterBy;
-        jobSearch.filterJobsByStatus(filter);
+        jobSearch.buildJobsListByStatus(filter);
       }
     });
     this.logoButton.addEventListener('click', function (evt) {
-      jobSearch.filterJobsByStatus('all');
+      jobSearch.buildJobsListByStatus('all');
     });
   }
   hideWorkPane = () => {

@@ -11,20 +11,24 @@ class JobSearch {
   set id(id) {
     this._id = id;
   }
+  get jobs() {
+    return this._jobs || [];
+  }
 
   set jobs(arr) {
-    //do I want jobs to be objects from fetch or instantiated Jobs?
     this._jobs.length = 0; //temp reset while debugging
     arr.forEach((job) => {
       this._jobs.push(new Job(job));
     });
   }
 
-  get jobs() {
-    return this._jobs || [];
+  updateJob(updatesObj) {
+    const target = this.jobs.find(
+      (job) => job.id === parseInt(updatesObj.id),
+    );
+    target.massUpdate(updatesObj);
   }
 
-  //TODO: Chop up and figure out instance call vs this
   buildJobSearchForm(jobSearchesObj) {
     const cardHeader = _.createElement({
       el: 'div',
@@ -119,6 +123,7 @@ class JobSearch {
     ui.workPane.appendChild(cardContent);
   }
 
+  //from form selection
   populateJobsList = (arr) => {
     arr.forEach((job) => {
       const card = job.buildSummaryCard();
@@ -157,7 +162,7 @@ class JobSearch {
     }
   };
 
-  filterJobsByStatus(status) {
+  buildJobsListByStatus(status) {
     let filteredJobs;
     switch (status) {
       case 'all':

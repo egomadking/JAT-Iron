@@ -14,6 +14,12 @@ class Job {
     this.status = obj.status;
   }
 
+  //TODO: update only key/values in post return object
+  //not used quite yet
+  massUpdate(obj) {
+    Object.assign(this, obj);
+  }
+
   buildSummaryCard() {
     const li = _.createElement({ el: 'li', classes: ['block'] });
     const card = _.createElement({ el: 'div', classes: ['card'] });
@@ -39,10 +45,10 @@ class Job {
       classes: ['card-content'],
     });
     let recruiterEmail = this.recruiter_email;
-    if (!this.recruiter_email === '') {
-      recruiterEmail = `email: <a href="${this.recruiter_email}">${this.recruiter_email}</a>`;
-    } else {
+    if (this.recruiter_email === '') {
       recruiterEmail = 'no email address provided';
+    } else {
+      recruiterEmail = `email: <a href="${this.recruiter_email}">${this.recruiter_email}</a>`;
     }
     cardContent.innerHTML = `
       <div class="content">
@@ -147,7 +153,7 @@ class Job {
     //TODO: figure out how to select matching Status value
     cardContent.innerHTML = `
       <form class="form is-grouped">
-        <input type="hidden" value="${JobSearch.id}" data-field="job_search_id">
+        <input type="hidden" value="${jobSearch.id}" data-field="job_search_id">
         <input type="hidden" value="${this.id}" data-field="id">
         <div class="field">
           <label class="label">Title</label>
@@ -203,8 +209,9 @@ class Job {
         <div class="field">
           <label class="label">Contact notes</label>
           <div class="control">
-            <textarea class="textarea" placeholder "include 2nd poc, secondary emails/phones, etc." data-field="poc_notes">${this.poc_notes}
-            </textarea>
+            <textarea class="textarea"
+                      placeholder "include 2nd poc, secondary emails/phones, etc."
+                      data-field="poc_notes">${this.poc_notes}</textarea>
           </div>
         </div>
         <div class="field is-grouped">
@@ -221,9 +228,9 @@ class Job {
         <div class="field">
           <label class="label">Description</label>
           <div class="control">
-            <textarea class="textarea" placeholder "full job description copypaste" data-field="description">
-            ${this.description}
-            </textarea>
+            <textarea class="textarea" 
+                      placeholder "full job description copypaste" 
+                      data-field="description">${this.description}</textarea>
           </div>
         </div>
         <div class="field is-grouped is-grouped-centered">
@@ -240,6 +247,8 @@ class Job {
         </div>
       </form>
     `;
+
+    //sets an existing job's status on select field
     const select = cardContent.querySelector('.select select');
     select.value = this.status;
 
@@ -248,17 +257,8 @@ class Job {
     );
     closeBtn.addEventListener('click', ui.hideWorkPane);
 
-    const submitJobForm = cardContent.querySelector('form');
-    submitJobForm.addEventListener('submit', (evt) => {
-      const elements = [...submitJobForm.elements];
-
-      elements.forEach((el) => {
-        //TODO: this is where I left off
-        const key = el.dataset.field;
-        const value = el.value;
-        console.log({ [key]: value });
-      });
-    });
+    const form = cardContent.querySelector('form');
+    form.addEventListener('submit', this.submitJobForm);
 
     const cancelJobInfo = cardContent.querySelector(
       '#cancel-job-info',
@@ -271,6 +271,26 @@ class Job {
     ui.workPane.appendChild(cardContent);
     ui.showWorkPane();
   }
-  //TODO: buildEditJob()
   //TODO: buildNewJob()
+
+  submitJobForm(evt) {
+    const fields = [...document.querySelector('form').elements];
+    const jobObj = {};
+    fields.forEach((el) => {
+      if (el.dataset.field) {
+        console.log({ [el.dataset.field]: el.value });
+        if (el.dataset.field) {
+          jobObj[el.dataset.field] = el.value;
+        }
+      }
+    });
+    debug = jobObj;
+    adapter.updateJob(jobObj, (json) => {
+      jobSearch.updateJob(json);
+      jobSearch.buildJobsListByStatus('all');
+      ui.hideWorkPane();
+    });
+    //TODO: if id exists, updateJob
+    //TODO: if id does not exist, postJob
+  }
 }

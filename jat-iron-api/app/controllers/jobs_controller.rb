@@ -5,8 +5,9 @@ class JobsController < ApplicationController
   end
 
   def create
-    byebug
     job = Job.find_by(id: params[:job_id])
+    job_search = JobSearch.find_by(id: params[job_search_id])
+    byebug
 
     #TODO: Jobs create action
   end

@@ -5,7 +5,7 @@ const _ = new Utils();
 const ui = new Ui();
 const jobSearch = new JobSearch();
 
-let debugJobSearch;
+let debug;
 
 function init(evt) {
   let storedId = adapter.getStoredId();
@@ -19,7 +19,6 @@ function init(evt) {
     //TODO: this is rough but works
     ui.showWorkPane();
     adapter.getJobSearches(function (json) {
-      debugJobSearch = json;
       jobSearch.buildJobSearchForm(json);
     });
   }

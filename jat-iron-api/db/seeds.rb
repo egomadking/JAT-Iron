@@ -1,3 +1,11 @@
+def f_company
+  Faker::Company.name
+end
+
+def f_location
+  [Faker::Address.city, Faker::Address.state_abbr].join(", ")
+end
+
 def f_recruiter
   Faker::Name.name
 end
@@ -26,7 +34,7 @@ def f_date_and_10(date)
   date + 10.days
 end
 
-search = JobSearch.create!(name: "test search")
+search = JobSearch.create!(name: "seed search")
 
 jobs_array = [
   ["Full-stack web developer(2 notes)", "new"],
@@ -50,6 +58,9 @@ jobs_array.each do |job|
   date_and_10 = date + 10.days
   search.jobs << Job.new(title: job[0],
                       status: job[1],
+                      notes: f_note,
+                      company: f_company,
+                      location: f_location,
                       posted: date, 
                       closed: date_and_10, 
                       description: f_description, 
@@ -57,14 +68,3 @@ jobs_array.each do |job|
                       recruiter_phone: f_phone, 
                       recruiter_email: f_email, )
 end
-
-
-
-job = Job.first
-job_2 = Job.second
-
-
-
-job.notes << Note.new(content: f_note)
-job.notes << Note.new(content: f_note)
-job_2.notes << Note.new(content: "Call me maybe.")

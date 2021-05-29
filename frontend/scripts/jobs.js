@@ -14,8 +14,6 @@ class Job {
     this.status = obj.status;
   }
 
-  //TODO: update only key/values in post return object
-  //not used quite yet
   massUpdate(obj) {
     Object.assign(this, obj);
   }

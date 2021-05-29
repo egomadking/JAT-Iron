@@ -1,6 +1,5 @@
 class Job < ApplicationRecord
   belongs_to :job_search
-  has_many :notes
 
   validates :title, presence: true
   validates :posted, presence: true

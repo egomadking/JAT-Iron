@@ -4,7 +4,10 @@ class Job {
     this.title = obj.title;
     this.url = obj.url || 'none provided';
     this.company_logo = obj.company_logo || 'images/suitcase.png';
+    this.company = obj.company;
+    this.location = obj.location;
     this.description = obj.description;
+    this.notes = obj.notes;
     this.recruiter_name = obj.recruiter_name;
     this.recruiter_phone = obj.recruiter_phone;
     this.recruiter_email = obj.recruiter_email || '';
@@ -35,7 +38,7 @@ class Job {
       <p class="card-header-title">${this.title}</p>
 
       <div class="media-right">
-        <h2 class="card-header-title ">Company Name, Location</h2>
+        <h2 class="card-header-title ">${this.company} | ${this.location}</h2>
       </div>
     `;
     const cardContent = _.createElement({
@@ -65,7 +68,6 @@ class Job {
     cardFooter.innerHTML = `
       <button class="card-footer-item button" data-type="show" data-id="${this.id}">Show</button>
       <button class="card-footer-item button" data-type="edit" data-id="${this.id}">Edit</button>
-      <button class="card-footer-item button" data-type="add-note" data-id="${this.id}">Add Note(#)</button>
       <button class="card-footer-item button" data-type="delete" data-id="${this.id}">Delete</button>
     `;
 
@@ -99,22 +101,27 @@ class Job {
       classes: ['card-content'],
     });
     let recruiterEmail = this.recruiter_email;
-    if (!this.recruiter_email === '') {
-      recruiterEmail = `<h3><textarea href="mailto:"${this.recruiter_email}">${this.recruiter_email}</a></h3>`;
-    } else {
+    if (this.recruiter_email === '') {
       recruiterEmail = `<h3>No email provided</h3>`;
+    } else {
+      recruiterEmail = `<h3 class="block title is-5"><a href="mailto:${this.recruiter_email}">${this.recruiter_email}</a></h3>`;
     }
     cardContent.innerHTML = `
-      <h2 class="block subtitle"><a href="#">Company Name, Location</a></h2>
+      <h2 class="block subtitle"><a href="#">${this.company} | ${this.location}</a></h2>
       <div class="block box">
-        <h3>Recruiter: ${this.recruiter_name}</h3>
+        <h3 class="title is-5">Recruiter: ${this.recruiter_name}</h3>
         ${recruiterEmail}
-        <h3><a href="tel:${this.recruiter_phone}">
+        <h3 class="title is-5"><a href="tel:${this.recruiter_phone}">
         ${this.recruiter_phone}</a></h3>
         <p class="is-italic">${this.poc_notes}</p>
       </div>
+        <h3 class="title is-4">Job Description</h3>
         <div class="content">
           ${this.description}
+        </div>
+        <h3 class="title is-4">Notes</h3>
+        <div class="content">
+          ${this.notes}
         </div>
     `;
 
@@ -127,6 +134,172 @@ class Job {
     ui.showWorkPane();
   }
 
+  static createBlankForm() {
+    const cardHeader = _.createElement({
+      el: 'div',
+      classes: ['card-header'],
+    });
+    cardHeader.innerHTML = `
+      <div class="media-left ml-3">
+        <figure class="image is-64x64">
+          <img src="images/edit.svg" alt="logo">
+        </figure>
+      </div>
+      <h2 class="card-header-title title mb-2" id="card-title"></h2>
+      
+      <div class="media-right">
+        <button class="button delete is-dark" id="close-work-pane-button"></button>
+      </div>
+    `;
+    const cardContent = _.createElement({
+      el: 'div',
+      classes: ['card-content'],
+    });
+    //<input type="hidden" value="${jobSearch.id}" data-field="job_search_id"> omitted from hidden-fields
+    cardContent.innerHTML = `
+      <form class="form is-grouped">
+        <div id="hidden-fields">
+        <input type="hidden" value="${jobSearch.id}" data-field="job_search_id">
+        </div>
+        <div class="field">
+          <label class="label">Title</label>
+          <div class="control">
+            <input class="input" type="text" value="" data-field="title">
+          </div>
+          <label class="label">Company</label>
+          <div class="control">
+            <input class="input" type="text" value="" data-field="company">
+          </div>
+          <label class="label">Location</label>
+          <div class="control">
+            <input class="input" type="text" value="" data-field="location">
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Status</label>
+          <div class="select">
+            <select data-field="status">
+              <option value="new">new</option>
+              <option value="applied">applied</option>
+              <option value="interviewing">interviewing</option>
+              <option value="offer">offer</option>
+              <option value="accepted">accepted</option>
+              <option value="rejected">rejected</option>
+              <option value="declined">declined</option>
+              <option value="closed">closed</option>
+              
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Company or posting URL</label>
+          <div class="control" >
+            <input class="input" type="text" value="" data-field="url">
+          </div>
+        </div>
+        <div class="field">
+          <label class="label" >Company Logo URL</label>
+          <div class="control">
+            <input class="input" type="text" value="" data-field="company_logo">
+          </div>
+        </div>
+
+        <div class="field is-grouped">
+          <label class="label">Recruiter name</label>
+          <div class="control is-expanded">
+            <input class="input" type="text" value="" data-field="recruiter_name">
+          </div>
+
+          <label class="label">Email</label>
+          <div class="control is-expanded">
+            <input class="input" type="text" value="" data-field="recruiter_email">
+          </div>
+
+          <label class="label">Phone</label>
+          <div class="control is-expanded">
+            <input class="input" type="text" value="" data-field="recruiter_phone">
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Contact notes</label>
+          <div class="control">
+            <textarea class="textarea"
+                      placeholder "include 2nd poc, secondary emails/phones, etc."
+                      data-field="poc_notes"></textarea>
+          </div>
+        </div>
+        <div class="field is-grouped">
+          <label class="label">Posted</label>
+          <div class="control is-expanded">
+            <input class="input" type="date" value="" data-field="posted">
+          </div>
+
+          <label class="label">Closed</label>
+          <div class="control is-expanded">
+            <input class="input" type="date" value="" data-field="closed">
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Description</label>
+          <div class="control">
+            <textarea class="textarea" 
+                      placeholder "full job description copypaste" 
+                      data-field="description"></textarea>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Notes</label>
+          <div class="control">
+            <textarea class="textarea" 
+                      placeholder "put notes here..." 
+                      data-field="notes"></textarea>
+          </div>
+        </div>
+        <div class="field is-grouped is-grouped-centered">
+          <div class="control">
+            <button class="button is-primary" id="submit-job-info">
+              Submit
+            </button>
+          </div>
+          <div class="control">
+            <button type="button" class="button is-light" id="cancel-job-info">
+              Cancel
+            </button>
+          </div>
+        </div>
+      </form>
+    `;
+    return { header: cardHeader, content: cardContent };
+  }
+
+  static openBlankForm() {
+    const form = this.createBlankForm();
+    const header = form.header;
+    const content = form.content;
+
+    //sets form title
+    const title = header.querySelector('#card-title');
+    title.innerText = 'New job';
+
+    //sets an existing job's status on select field
+    const select = content.querySelector('.select select');
+    select.value = 'new';
+
+    //cancel buttons
+    const closeBtn = header.querySelector('#close-work-pane-button');
+    const cancelBtn = content.querySelector('#cancel-job-info');
+    [closeBtn, cancelBtn].forEach((btn) => {
+      btn.addEventListener('click', ui.hideWorkPane);
+    });
+
+    //submit
+    const formEl = content.querySelector('form');
+    formEl.addEventListener('submit', Job.submitJobForm);
+
+    ui.workPane.appendChild(header);
+    ui.workPane.appendChild(content);
+    ui.showWorkPane();
+  }
   buildEditJob() {
     const cardHeader = _.createElement({
       el: 'div',
@@ -148,7 +321,6 @@ class Job {
       el: 'div',
       classes: ['card-content'],
     });
-    //TODO: figure out how to select matching Status value
     cardContent.innerHTML = `
       <form class="form is-grouped">
         <input type="hidden" value="${jobSearch.id}" data-field="job_search_id">
@@ -157,6 +329,14 @@ class Job {
           <label class="label">Title</label>
           <div class="control">
             <input class="input" type="text" value="${this.title}" data-field="title">
+          </div>
+          <label class="label">Company</label>
+          <div class="control">
+            <input class="input" type="text" value="${this.company}" data-field="company">
+          </div>
+          <label class="label">Location</label>
+          <div class="control">
+            <input class="input" type="text" value="${this.location}" data-field="location">
           </div>
         </div>
         <div class="field">
@@ -231,6 +411,14 @@ class Job {
                       data-field="description">${this.description}</textarea>
           </div>
         </div>
+        <div class="field">
+          <label class="label">Notes</label>
+          <div class="control">
+            <textarea class="textarea" 
+                      placeholder "put notes here..." 
+                      data-field="notes">${this.notes}</textarea>
+          </div>
+        </div>
         <div class="field is-grouped is-grouped-centered">
           <div class="control">
             <button class="button is-primary" id="submit-job-info">
@@ -256,7 +444,7 @@ class Job {
     closeBtn.addEventListener('click', ui.hideWorkPane);
 
     const form = cardContent.querySelector('form');
-    form.addEventListener('submit', this.submitJobForm);
+    form.addEventListener('submit', Job.submitJobForm);
 
     const cancelJobInfo = cardContent.querySelector(
       '#cancel-job-info',
@@ -269,9 +457,8 @@ class Job {
     ui.workPane.appendChild(cardContent);
     ui.showWorkPane();
   }
-  //TODO: buildNewJob()
 
-  submitJobForm(evt) {
+  static submitJobForm(evt) {
     const fields = [...document.querySelector('form').elements];
     const jobObj = {};
     fields.forEach((el) => {
@@ -282,13 +469,27 @@ class Job {
         }
       }
     });
+    if (!jobObj.title || !jobObj.posted) {
+      console.warn('Title and Posted date cannot be empty');
+      alert('Title and Posted date cannot be empty');
+      return;
+    }
+    //TODO: handle bad http requests
     debug = jobObj;
-    adapter.updateJob(jobObj, (json) => {
-      jobSearch.updateJob(json);
-      jobSearch.buildJobsListByStatus('all');
-      ui.hideWorkPane();
-    });
-    //TODO: if id exists, updateJob
-    //TODO: if id does not exist, postJob
+    if (jobObj.id) {
+      console.log('submitting update');
+      adapter.updateJob(jobObj, (json) => {
+        jobSearch.updateJob(json);
+        jobSearch.buildJobsListByStatus('all');
+        ui.hideWorkPane();
+      });
+    } else {
+      console.log('submitting new');
+      adapter.postJob(jobObj, (json) => {
+        jobSearch.addNewJob(json);
+        jobSearch.buildJobsListByStatus('all');
+        ui.hideWorkPane();
+      });
+    }
   }
 }

@@ -5,20 +5,22 @@ class JobsController < ApplicationController
   end
 
   def create
-    job = Job.find_by(id: params[:job_id])
-    job_search = JobSearch.find_by(id: params[job_search_id])
-    byebug
+    job_search = JobSearch.find_by(id: params[:job_search_id])
+    if job_search.jobs << Job.create(job_params)
+      job = job_search.jobs.last
+      render json: JobSerializer.new(job).to_serialized_json
+    else
+      render json: {error: "Job was not saved."}, status: :bad_request
+    end
 
-    #TODO: Jobs create action
   end
 
   def update
     job = Job.find_by(id: params[:id])
-    if job
-      job.update(job_params)
-      render json: JobSerializer.new(job).to_serialized_json, status:200
+    if job.update(job_params)
+      render json: JobSerializer.new(job).to_serialized_json
     else
-    
+      render json: {error: "Job was not saved."}, status: :bad_request
     end
   end
 

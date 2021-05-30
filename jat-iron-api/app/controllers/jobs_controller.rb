@@ -24,9 +24,14 @@ class JobsController < ApplicationController
     end
   end
 
-  def delete
-    byebug
-    #TODO: Jobs delete action
+  def destroy
+    job = Job.find_by(id: params[:id])
+    if job
+      job.destroy
+      render json: {success: "Job id #{params[:id]} deleted."}
+    else
+      render json: {error: "Job was not deleted."}, status: :bad_request
+    end
   end
 end
 

@@ -123,18 +123,42 @@ class Job {
         <div class="content">
           ${this.notes}
         </div>
+        <div class="field is-grouped is-grouped-centered">
+          <div class="control">
+            <button class="button is-primary"
+                    id="edit-job-info"
+                    data-id="${this.id}">
+              Edit
+            </button>
+          </div>
+          <div class="control">
+            <button type="button" class="button is-light" id="close-job-info">
+              Close
+            </button>
+          </div>
+        </div>
     `;
 
     const closeBtn = cardHeader.querySelector(
       '#close-work-pane-button',
     );
     closeBtn.addEventListener('click', ui.hideWorkPane);
+
+    const editBtn = cardContent.querySelector('#edit-job-info');
+    editBtn.addEventListener('click', (evt) => {
+      ui.clearWorkPane();
+      this.openEditForm();
+    });
+
+    const closeBtn2 = cardContent.querySelector('#close-job-info');
+    closeBtn2.addEventListener('click', ui.hideWorkPane);
+
     ui.workPane.appendChild(cardHeader);
     ui.workPane.appendChild(cardContent);
     ui.showWorkPane();
   }
 
-  static createBlankForm() {
+  static createForm() {
     const cardHeader = _.createElement({
       el: 'div',
       classes: ['card-header'],
@@ -269,11 +293,23 @@ class Job {
         </div>
       </form>
     `;
+    //cancel buttons
+    const closeBtn = cardHeader.querySelector(
+      '#close-work-pane-button',
+    );
+    const cancelBtn = cardContent.querySelector('#cancel-job-info');
+    [closeBtn, cancelBtn].forEach((btn) => {
+      btn.addEventListener('click', ui.hideWorkPane);
+    });
+
+    //submit
+    const formEl = cardContent.querySelector('form');
+    formEl.addEventListener('submit', Job.submitJobForm);
     return { header: cardHeader, content: cardContent };
   }
 
   static openBlankForm() {
-    const form = this.createBlankForm();
+    const form = this.createForm();
     const header = form.header;
     const content = form.content;
 
@@ -286,15 +322,15 @@ class Job {
     select.value = 'new';
 
     //cancel buttons
-    const closeBtn = header.querySelector('#close-work-pane-button');
-    const cancelBtn = content.querySelector('#cancel-job-info');
-    [closeBtn, cancelBtn].forEach((btn) => {
-      btn.addEventListener('click', ui.hideWorkPane);
-    });
+    // const closeBtn = header.querySelector('#close-work-pane-button');
+    // const cancelBtn = content.querySelector('#cancel-job-info');
+    // [closeBtn, cancelBtn].forEach((btn) => {
+    //   btn.addEventListener('click', ui.hideWorkPane);
+    //});
 
     //submit
-    const formEl = content.querySelector('form');
-    formEl.addEventListener('submit', Job.submitJobForm);
+    // const formEl = content.querySelector('form');
+    // formEl.addEventListener('submit', Job.submitJobForm);
 
     ui.workPane.appendChild(header);
     ui.workPane.appendChild(content);
@@ -302,12 +338,16 @@ class Job {
   }
 
   openEditForm() {
-    const form = Job.createBlankForm();
+    const form = Job.createForm();
     const header = form.header;
 
     const title = header.querySelector('#card-title');
     title.innerText = 'Edit job';
     const content = form.content;
+
+    const hiddenFields = content.querySelector('#hidden-fields');
+    const idField = `<input type="hidden" value="${this.id}" data-field="id">`;
+    hiddenFields.insertAdjacentHTML('afterbegin', idField);
     const fields = [...content.querySelectorAll('input')];
     fields.forEach((field) => {
       if (field.dataset.field === 'job_search_id') {
@@ -323,170 +363,8 @@ class Job {
     const notes = content.querySelector('#notes');
     notes.innerText = this.notes;
 
-    //close x
-    //cancel btn
-    //submit btn
-
     ui.workPane.appendChild(header);
     ui.workPane.appendChild(content);
-    ui.showWorkPane();
-  }
-
-  buildEditJob() {
-    const cardHeader = _.createElement({
-      el: 'div',
-      classes: ['card-header'],
-    });
-    cardHeader.innerHTML = `
-      <div class="media-left ml-3">
-        <figure class="image is-64x64">
-          <img src="images/edit.svg" alt="logo">
-        </figure>
-      </div>
-      <h2 class="card-header-title title mb-2">Edit job</h2>
-      
-      <div class="media-right">
-        <button class="button delete is-dark" id="close-work-pane-button"></button>
-      </div>
-    `;
-    const cardContent = _.createElement({
-      el: 'div',
-      classes: ['card-content'],
-    });
-    cardContent.innerHTML = `
-      <form class="form is-grouped">
-        <input type="hidden" value="${jobSearch.id}" data-field="job_search_id">
-        <input type="hidden" value="${this.id}" data-field="id">
-        <div class="field">
-          <label class="label">Title</label>
-          <div class="control">
-            <input class="input" type="text" value="${this.title}" data-field="title">
-          </div>
-          <label class="label">Company</label>
-          <div class="control">
-            <input class="input" type="text" value="${this.company}" data-field="company">
-          </div>
-          <label class="label">Location</label>
-          <div class="control">
-            <input class="input" type="text" value="${this.location}" data-field="location">
-          </div>
-        </div>
-        <div class="field">
-          <label class="label">Status</label>
-          <div class="select">
-            <select data-field="status">
-              <option value="new">new</option>
-              <option value="applied">applied</option>
-              <option value="interviewing">interviewing</option>
-              <option value="offer">offer</option>
-              <option value="accepted">accepted</option>
-              <option value="rejected">rejected</option>
-              <option value="declined">declined</option>
-              <option value="closed">closed</option>
-              
-            </select>
-          </div>
-        </div>
-        <div class="field">
-          <label class="label">Company or posting URL</label>
-          <div class="control" >
-            <input class="input" type="text" value="${this.url}" data-field="url">
-          </div>
-        </div>
-        <div class="field">
-          <label class="label" >Company Logo URL</label>
-          <div class="control">
-            <input class="input" type="text" value="${this.company_logo}" data-field="company_logo">
-          </div>
-        </div>
-
-        <div class="field is-grouped">
-          <label class="label">Recruiter name</label>
-          <div class="control is-expanded">
-            <input class="input" type="text" value="${this.recruiter_name}" data-field="recruiter_name">
-          </div>
-
-          <label class="label">Email</label>
-          <div class="control is-expanded">
-            <input class="input" type="text" value="${this.recruiter_email}" data-field="recruiter_email">
-          </div>
-
-          <label class="label">Phone</label>
-          <div class="control is-expanded">
-            <input class="input" type="text" value="${this.recruiter_phone}" data-field="recruiter_phone">
-          </div>
-        </div>
-        <div class="field">
-          <label class="label">Contact notes</label>
-          <div class="control">
-            <textarea class="textarea"
-                      placeholder "include 2nd poc, secondary emails/phones, etc."
-                      data-field="poc_notes">${this.poc_notes}</textarea>
-          </div>
-        </div>
-        <div class="field is-grouped">
-          <label class="label">Posted</label>
-          <div class="control is-expanded">
-            <input class="input" type="date" value="${this.posted}" data-field="posted">
-          </div>
-
-          <label class="label">Closed</label>
-          <div class="control is-expanded">
-            <input class="input" type="date" value="${this.closed}" data-field="closed">
-          </div>
-        </div>
-        <div class="field">
-          <label class="label">Description</label>
-          <div class="control">
-            <textarea class="textarea" 
-                      placeholder "full job description copypaste" 
-                      data-field="description">${this.description}</textarea>
-          </div>
-        </div>
-        <div class="field">
-          <label class="label">Notes</label>
-          <div class="control">
-            <textarea class="textarea" 
-                      placeholder "put notes here..." 
-                      data-field="notes">${this.notes}</textarea>
-          </div>
-        </div>
-        <div class="field is-grouped is-grouped-centered">
-          <div class="control">
-            <button class="button is-primary" id="submit-job-info">
-              Submit
-            </button>
-          </div>
-          <div class="control">
-            <button type="button" class="button is-light" id="cancel-job-info">
-              Cancel
-            </button>
-          </div>
-        </div>
-      </form>
-    `;
-
-    //sets an existing job's status on select field
-    const select = cardContent.querySelector('.select select');
-    select.value = this.status;
-
-    const closeBtn = cardHeader.querySelector(
-      '#close-work-pane-button',
-    );
-    closeBtn.addEventListener('click', ui.hideWorkPane);
-
-    const form = cardContent.querySelector('form');
-    form.addEventListener('submit', Job.submitJobForm);
-
-    const cancelJobInfo = cardContent.querySelector(
-      '#cancel-job-info',
-    );
-    cancelJobInfo.addEventListener('click', (evt) => {
-      ui.hideWorkPane();
-    });
-
-    ui.workPane.appendChild(cardHeader);
-    ui.workPane.appendChild(cardContent);
     ui.showWorkPane();
   }
 
@@ -495,28 +373,24 @@ class Job {
     const jobObj = {};
     fields.forEach((el) => {
       if (el.dataset.field) {
-        console.log({ [el.dataset.field]: el.value });
         if (el.dataset.field) {
           jobObj[el.dataset.field] = el.value;
         }
       }
     });
     if (!jobObj.title || !jobObj.posted) {
-      console.warn('Title and Posted date cannot be empty');
       alert('Title and Posted date cannot be empty');
       return;
     }
     //TODO: handle bad http requests
     debug = jobObj;
     if (jobObj.id) {
-      console.log('submitting update');
       adapter.updateJob(jobObj, (json) => {
         jobSearch.updateJob(json);
         jobSearch.buildJobsListByStatus('all');
         ui.hideWorkPane();
       });
     } else {
-      console.log('submitting new');
       adapter.postJob(jobObj, (json) => {
         jobSearch.addNewJob(json);
         jobSearch.buildJobsListByStatus('all');

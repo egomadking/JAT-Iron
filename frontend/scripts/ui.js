@@ -54,6 +54,9 @@ class Ui {
       Job.openBlankForm();
     });
   }
+  clearWorkPane = () => {
+    this.workPane.innerText = '';
+  };
   hideWorkPane = () => {
     if (![...this.workPane.classList].includes('local-is-hidden')) {
       this.workPane.classList.add('local-is-hidden');

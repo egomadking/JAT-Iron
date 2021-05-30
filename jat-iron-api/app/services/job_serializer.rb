@@ -5,8 +5,7 @@ class JobSerializer
 
   def to_serialized_json
     @job_search_obj.to_json(
-      except: [:created_at, :updated_at],
-      include: :notes
+      except: [:created_at, :updated_at]
     )
   end
 

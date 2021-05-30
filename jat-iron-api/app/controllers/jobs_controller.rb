@@ -30,5 +30,5 @@ end
 
 
 def job_params
-  params.require(:job).permit(:title, :status, :url, :company_logo, :recruiter_name, :recruiter_email, :recruiter_phone, :poc_notes, :posted, :closed, :description)
+  params.require(:job).permit(:title, :status, :url, :company_logo, :recruiter_name, :recruiter_email, :recruiter_phone, :poc_notes, :posted, :closed, :description, :company, :location, :notes)
 end

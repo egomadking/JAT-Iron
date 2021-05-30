@@ -22,6 +22,11 @@ class JobSearch {
     });
   }
 
+  addNewJob(jobObj) {
+    const newJob = new Job(jobObj);
+    this._jobs.push(newJob);
+  }
+
   updateJob(updatesObj) {
     const target = this.jobs.find(
       (job) => job.id === parseInt(updatesObj.id),
@@ -146,11 +151,7 @@ class JobSearch {
         case 'edit':
           this.jobs.find((j) => j.id === jobId).buildEditJob();
           break;
-        case 'add-note':
-          //TODO: do something showy
-          //TODO: and do something edity
-          console.log(`#${evt.target.dataset.id} something notey`);
-          break;
+
         case 'delete':
           //TODO:do something deletey
           console.log(`#${evt.target.dataset.id} something deletey`);

@@ -48,7 +48,6 @@ class Adapter {
       });
   }
 
-  //TODO: postJob
   postJob(jobObj, callback) {
     const configObj = {
       method: 'POST',
@@ -67,7 +66,6 @@ class Adapter {
       });
   }
 
-  //TODO: updateJob
   updateJob(jobObj, callback) {
     const configObj = {
       method: 'PATCH',
@@ -79,6 +77,25 @@ class Adapter {
     };
     fetch(`${this.baseUrl}/jobs/${jobObj.id}`, configObj)
       .then((resp) => resp.json())
+      .then((json) => {
+        if (callback) {
+          callback(json);
+        }
+      });
+  }
+
+  deleteJob(id, callback) {
+    const configObj = {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+    };
+    fetch(`${this.baseUrl}/jobs/${id}`, configObj)
+      .then((resp) => {
+        return resp.json();
+      })
       .then((json) => {
         if (callback) {
           callback(json);

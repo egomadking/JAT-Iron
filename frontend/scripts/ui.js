@@ -50,6 +50,9 @@ class Ui {
     this.logoButton.addEventListener('click', function (evt) {
       jobSearch.buildJobsListByStatus('all');
     });
+    this.newJobButton.addEventListener('click', function (evt) {
+      Job.openBlankForm();
+    });
   }
   hideWorkPane = () => {
     if (![...this.workPane.classList].includes('local-is-hidden')) {

@@ -34,6 +34,14 @@ class JobSearch {
     target.massUpdate(updatesObj);
   }
 
+  deleteJob(jobId) {
+    adapter.deleteJob(jobId, () => {
+      const jobIndex = this.jobs.findIndex((j) => j.id === jobId);
+      this.jobs.splice(jobIndex, 1);
+      this.buildJobsListByStatus('all');
+    });
+  }
+
   buildJobSearchForm(jobSearchesObj) {
     const cardHeader = _.createElement({
       el: 'div',
@@ -149,12 +157,12 @@ class JobSearch {
           this.jobs.find((j) => j.id === jobId).buildViewJob();
           break;
         case 'edit':
-          this.jobs.find((j) => j.id === jobId).buildEditJob();
+          //TODO: LEFT OFF HERE
+          this.jobs.find((j) => j.id === jobId).openEditForm();
           break;
 
         case 'delete':
-          //TODO:do something deletey
-          console.log(`#${evt.target.dataset.id} something deletey`);
+          this.deleteJob(jobId);
           break;
         default:
           console.warn('Case does not match existing options.');

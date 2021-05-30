@@ -177,7 +177,7 @@ class Job {
         </div>
         <div class="field">
           <label class="label">Status</label>
-          <div class="select">
+          <div class="select" id="status">
             <select data-field="status">
               <option value="new">new</option>
               <option value="applied">applied</option>
@@ -223,7 +223,7 @@ class Job {
         <div class="field">
           <label class="label">Contact notes</label>
           <div class="control">
-            <textarea class="textarea"
+            <textarea class="textarea" id="poc-notes"
                       placeholder "include 2nd poc, secondary emails/phones, etc."
                       data-field="poc_notes"></textarea>
           </div>
@@ -242,7 +242,7 @@ class Job {
         <div class="field">
           <label class="label">Description</label>
           <div class="control">
-            <textarea class="textarea" 
+            <textarea class="textarea" id="description"
                       placeholder "full job description copypaste" 
                       data-field="description"></textarea>
           </div>
@@ -250,7 +250,7 @@ class Job {
         <div class="field">
           <label class="label">Notes</label>
           <div class="control">
-            <textarea class="textarea" 
+            <textarea class="textarea" id="notes"
                       placeholder "put notes here..." 
                       data-field="notes"></textarea>
           </div>
@@ -300,6 +300,38 @@ class Job {
     ui.workPane.appendChild(content);
     ui.showWorkPane();
   }
+
+  openEditForm() {
+    const form = Job.createBlankForm();
+    const header = form.header;
+
+    const title = header.querySelector('#card-title');
+    title.innerText = 'Edit job';
+    const content = form.content;
+    const fields = [...content.querySelectorAll('input')];
+    fields.forEach((field) => {
+      if (field.dataset.field === 'job_search_id') {
+        field.value = jobSearch.id;
+      } else {
+        field.value = this[field.dataset.field];
+      }
+    });
+    const pocNotes = content.querySelector('#poc-notes');
+    pocNotes.innerText = this.poc_notes;
+    const description = content.querySelector('#description');
+    description.innerText = this.description;
+    const notes = content.querySelector('#notes');
+    notes.innerText = this.notes;
+
+    //close x
+    //cancel btn
+    //submit btn
+
+    ui.workPane.appendChild(header);
+    ui.workPane.appendChild(content);
+    ui.showWorkPane();
+  }
+
   buildEditJob() {
     const cardHeader = _.createElement({
       el: 'div',

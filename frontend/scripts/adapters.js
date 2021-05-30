@@ -49,7 +49,23 @@ class Adapter {
   }
 
   //TODO: postJob
-  postJob(jobObj, callback) {}
+  postJob(jobObj, callback) {
+    const configObj = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify(jobObj),
+    };
+    fetch(`${this.baseUrl}/jobs/`, configObj)
+      .then((resp) => resp.json())
+      .then((json) => {
+        if (callback) {
+          callback(json);
+        }
+      });
+  }
 
   //TODO: updateJob
   updateJob(jobObj, callback) {

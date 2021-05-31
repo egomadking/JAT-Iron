@@ -321,17 +321,6 @@ class Job {
     const select = content.querySelector('.select select');
     select.value = 'new';
 
-    //cancel buttons
-    // const closeBtn = header.querySelector('#close-work-pane-button');
-    // const cancelBtn = content.querySelector('#cancel-job-info');
-    // [closeBtn, cancelBtn].forEach((btn) => {
-    //   btn.addEventListener('click', ui.hideWorkPane);
-    //});
-
-    //submit
-    // const formEl = content.querySelector('form');
-    // formEl.addEventListener('submit', Job.submitJobForm);
-
     ui.workPane.appendChild(header);
     ui.workPane.appendChild(content);
     ui.showWorkPane();

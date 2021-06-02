@@ -358,6 +358,7 @@ class Job {
   }
 
   static submitJobForm(evt) {
+    evt.preventDefault();
     const fields = [...document.querySelector('form').elements];
     const jobObj = {};
     fields.forEach((el) => {

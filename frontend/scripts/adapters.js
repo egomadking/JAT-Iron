@@ -10,6 +10,9 @@ class Adapter {
         if (callback) {
           callback(json);
         }
+      })
+      .catch((err) => {
+        this.displayError(err);
       });
   }
   getJobSearch(id, callback) {
@@ -19,6 +22,9 @@ class Adapter {
         if (callback) {
           callback(json);
         }
+      })
+      .catch((err) => {
+        this.displayError(err);
       });
   }
   postJobSearch(name, callback) {
@@ -36,6 +42,9 @@ class Adapter {
         if (callback) {
           callback(json);
         }
+      })
+      .catch((err) => {
+        this.displayError(err);
       });
   }
   getJob(id, callback) {
@@ -45,6 +54,9 @@ class Adapter {
         if (callback) {
           callback(json);
         }
+      })
+      .catch((err) => {
+        this.displayError(err);
       });
   }
 
@@ -63,6 +75,9 @@ class Adapter {
         if (callback) {
           callback(json);
         }
+      })
+      .catch((err) => {
+        this.displayError(err);
       });
   }
 
@@ -81,6 +96,9 @@ class Adapter {
         if (callback) {
           callback(json);
         }
+      })
+      .catch((err) => {
+        this.displayError(err);
       });
   }
 
@@ -100,6 +118,9 @@ class Adapter {
         if (callback) {
           callback(json);
         }
+      })
+      .catch((err) => {
+        this.displayError(err);
       });
   }
 
@@ -114,5 +135,9 @@ class Adapter {
 
   setStoredId(id) {
     window.sessionStorage.setItem('jobSearchId', id);
+  }
+
+  displayError(err) {
+    ui.displayFetchError(err);
   }
 }

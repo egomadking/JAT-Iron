@@ -76,4 +76,28 @@ class Ui {
       console.warn('Workpane is already shown. Check your state.');
     }
   };
+  displayFetchError = (err) => {
+    const modal = document.createElement('div');
+    modal.classList.add('modal');
+    modal.classList.add('is-active');
+    const modalContent = `
+    <div class="modal-background"></div>
+    <div class="modal-content">
+      <div class="card">
+        <div class="card-content">
+          <div class="content">
+            <p>${err.message}</p>
+            <p>Check your connection and try again</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="modal-close is-large" aria-label="close"></button>`;
+    modal.innerHTML = modalContent;
+    this.body.appendChild(modal);
+    const modalCloseBtn = document.querySelector('.modal-close');
+    modalCloseBtn.addEventListener('click', (evt) => {
+      modal.classList.remove('is-active');
+    });
+  };
 }

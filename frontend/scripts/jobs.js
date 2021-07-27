@@ -22,15 +22,21 @@ class Job {
   }
 
   buildSummaryCard() {
-    const li = _.createElement({ el: 'li', classes: ['block'] });
-    const card = _.createElement({ el: 'div', classes: ['card'] });
+    const li = _.createElement({
+      el: 'li',
+      classes: ['block']
+    });
+    const card = _.createElement({
+      el: 'div',
+      classes: ['card']
+    });
     const header = _.createElement({
       el: 'header',
       classes: ['card-header'],
     });
     header.innerHTML = `
       <div class="media-left">
-        <figure class="image is-48x48">
+        <figure class="image is-48x48 card-header-icon p-0 pl-1">
           <img src="${this.company_logo}" alt="logo">
         </figure>
       </div>
@@ -305,7 +311,10 @@ class Job {
     //submit
     const formEl = cardContent.querySelector('form');
     formEl.addEventListener('submit', Job.submitJobForm);
-    return { header: cardHeader, content: cardContent };
+    return {
+      header: cardHeader,
+      content: cardContent
+    };
   }
 
   static openBlankForm() {
